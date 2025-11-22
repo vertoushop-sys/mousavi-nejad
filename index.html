@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>فروشگاه آیفون</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* پایه */
+    * { box-sizing: border-box; }
+    body {
+      font-family: Tahoma, sans-serif;
+      direction: rtl;
+      margin: 0;
+      background: #f4f6f9;
+      color: #222;
+    }
+
+    /* هدر و ناوبری */
+    header {
+      background: linear-gradient(90deg, #000, #333);
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+    }
+    nav a {
+      margin: 0 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a:hover { background: rgba(255,255,255,0.1); }
+    nav a.active { background: #ffcc00; color: #000; }
+
+    /* محتوای اصلی */
+    main {
+      padding: 24px;
+      min-height: 60vh;
+    }
+    h1, h2 { margin: 0 0 16px; }
+
+    /* گرید محصولات */
+    .products-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid #eee;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    }
+    .product-thumb {
+      width: 100%;
+      height: 250px;
+      margin-top: 5px;
+      object-fit: fill;
+      display: block;
+      background: #f2f2f2;
+    }
+    .product-body {
+      padding: 14px;
+      text-align: center;
+    }
+    .product-name { font-weight: 700; margin-bottom: 6px; }
+    .product-desc { color: #666; font-size: 13px; margin-bottom: 10px; }
+    .product-price { color: #e63946; font-weight: 700; margin-bottom: 12px; }
+    .product-link {
+      display: inline-block;
+      background: #007bff;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .product-link:hover { background: #0056b3; }
+
+    /* صفحه محصول تکی (شبیه ووکامرس) */
+    .product-detail {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border: 1px solid #eee;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .detail-media {
+      width: 100%;
+    }
+    .detail-media img {
+      width: 100%;
+      max-height: 600px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #f2f2f2;
+    }
+    .detail-info {
+      padding: 8px 4px;
+    }
+    .detail-title { font-size: 28px; margin-bottom: 10px; font-weight: 800; }
+    .detail-price { font-size: 22px; color: #e63946; margin-bottom: 12px; font-weight: 700; }
+    .detail-desc { line-height: 1.9; color: #444; margin-bottom: 14px; }
+    .detail-specs h3 { margin: 10px 0; }
+    .specs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .spec-item {
+      background: #f8f8f8;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .spec-key { color: #666; }
+    .spec-val { font-weight: 700; }
+    .detail-actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .btn-primary { background: #007bff; color: #fff; }
+    .btn-primary:hover { background: #0056b3; }
+    .btn-secondary { background: #eee; color: #222; }
+    .btn-secondary:hover { background: #ddd; }
+
+    /* درباره ما */
+    .about {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      border: 1px solid #eee;
+      padding: 18px;
+      text-align: center;
+      line-height: 1.9;
+    }
+
+    /* فوتر */
+    footer {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 16px;
+      margin-top: 24px;
+    }
+
+    /* ریسپانسیو */
+    @media (min-width: 768px) {
+      .product-detail {
+        grid-template-columns: 1.1fr 1fr;
+        align-items: start;
+      }
+      .specs-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📱 فروشگاه آیفون</div>
+    <nav>
+      <a href="#/products" id="nav-products">محصولات</a>
+      <a href="#/about" id="nav-about">درباره ما</a>
+    </nav>
+  </header>
+
+  <main id="app"></main>
+
+  <footer>© 2025 فروشگاه آیفون | طراحی حرفه‌ای</footer>
+
+  <script>
+    const app = document.getElementById("app");
+
+    // آرایه محصولات با توضیحات و مشخصات کامل
+    const products = [
+      {
+        id: 1, name: "iPhone 11", price: "25,000,000",
+        desc: "آیفون 11 با دوربین دوگانه و عملکرد پایدار",
+        details: "iPhone 11 با نمایشگر 6.1 اینچی Liquid Retina و چیپ A13 Bionic عرضه می‌شود. عمر باتری مناسب و اکوسیستم قدرتمند اپل، آن را به گزینه‌ای خوش‌قیمت تبدیل کرده است.",
+        specs: { نمایشگر: "6.1 اینچ Liquid Retina", پردازنده: "A13 Bionic", دوربین: "دوگانه 12MP", باتری: "3110mAh", پورت: "Lightning" },
+        img: "images/11.jpg"
+      },
+      {
+        id: 2, name: "iPhone 11 Pro", price: "33,000,000",
+        desc: "نسخه پرو با نمایشگر بهتر و دوربین سه‌گانه",
+        details: "iPhone 11 Pro دارای نمایشگر Super Retina XDR و سیستم دوربین سه‌گانه با عملکرد عالی در نور کم است. کیفیت ساخت بالا و ابعاد جمع‌وجور از مزیت‌های آن است.",
+        specs: { نمایشگر: "5.8 اینچ OLED", پردازنده: "A13 Bionic", دوربین: "سه‌گانه 12MP", باتری: "3046mAh", پورت: "Lightning" },
+        img: "images/11pro.jpg"
+      },
+      {
+        id: 3, name: "iPhone 12", price: "30,000,000",
+        desc: "طراحی جدید با لبه‌های تخت و 5G",
+        details: "نسل جدید با پشتیبانی 5G، نمایشگر OLED و طراحی تخت. عملکرد روان در کنار وزن مناسب تجربه کاربری دلپذیری ارائه می‌کند.",
+        specs: { نمایشگر: "6.1 اینچ OLED", پردازنده: "A14 Bionic", دوربین: "دوگانه 12MP", باتری: "2815mAh", پورت: "Lightning" },
+        img: "images/12.png"
+      },
+      {
+        id: 4, name: "iPhone 12 Pro", price: "38,000,000",
+        desc: "نسخه پرو با LiDAR و کیفیت ساخت عالی",
+        details: "اضافه شدن سنسور LiDAR و دوربین‌های پیشرفته در کنار بدنه فولادی، آن را برای عکاسی و فیلم‌برداری حرفه‌ای مناسب کرده است.",
+        specs: { نمایشگر: "6.1 اینچ OLED", پردازنده: "A14 Bionic", دوربین: "سه‌گانه 12MP + LiDAR", باتری: "2815mAh", پورت: "Lightning" },
+        img: "images/12pro.jpg"
+      },
+      {
+        id: 5, name: "iPhone 13", price: "35,000,000",
+        desc: "باتری بهتر و دوربین ارتقایافته",
+        details: "بهبود عمر باتری و کیفیت تصویر در کنار چیپ A15 Bionic باعث شده آیفون 13 میان‌رده محبوبی باشد.",
+        specs: { نمایشگر: "6.1 اینچ OLED", پردازنده: "A15 Bionic", دوربین: "دوگانه 12MP", باتری: "3240mAh", پورت: "Lightning" },
+        img: "images/13.jpg"
+      },
+      {
+        id: 6, name: "iPhone 13 Pro", price: "40,000,000",
+        desc: "ProMotion 120Hz و دوربین‌های پیشرفته",
+        details: "نمایشگر 120Hz ProMotion، حالت سینماتیک برای ویدیو و پردازنده A15 قدرتمند تجربه‌ای حرفه‌ای فراهم کرده است.",
+        specs: { نمایشگر: "6.1 اینچ ProMotion OLED", پردازنده: "A15 Bionic", دوربین: "سه‌گانه 12MP", باتری: "3095mAh", پورت: "Lightning" },
+        img: "images/13pro.jpg"
+      },
+      {
+        id: 7, name: "iPhone 14", price: "42,000,000",
+        desc: "قابلیت‌های ایمنی جدید و عملکرد مطمئن",
+        details: "آیفون 14 با قابلیت‌های ایمنی مانند Crash Detection و عمر باتری مناسب عرضه شده است.",
+        specs: { نمایشگر: "6.1 اینچ OLED", پردازنده: "A15 Bionic", دوربین: "دوگانه 12MP", باتری: "3279mAh", پورت: "Lightning" },
+        img: "images/14.jpg"
+      },
+      {
+        id: 8, name: "iPhone 14 Pro", price: "50,000,000",
+        desc: "Dynamic Island و دوربین 48MP",
+        details: "Dynamic Island تعامل جدیدی با نوتیفیکیشن‌ها ارائه می‌دهد و دوربین 48 مگاپیکسلی جهشی بزرگ در کیفیت تصویر است.",
+        specs: { نمایشگر: "6.1 اینچ ProMotion OLED", پردازنده: "A16 Bionic", دوربین: "سه‌گانه تا 48MP", باتری: "3200mAh", پورت: "Lightning" },
+        img: "images/14pro.jpeg"
+      },
+      {
+        id: 9, name: "iPhone 15", price: "48,000,000",
+        desc: "USB‑C و بهبود کلی تجربه",
+        details: "انتقال به USB‑C و بهبودهای دوربین و باتری، آیفون 15 را گزینه‌ای به‌روز و کاربردی کرده است.",
+        specs: { نمایشگر: "6.1 اینچ OLED", پردازنده: "A16 Bionic", دوربین: "دوگانه 48MP", باتری: "3349mAh", پورت: "USB‑C" },
+        img: "images/15.jpeg"
+      },
+      {
+        id: 10, name: "iPhone 15 Pro", price: "65,000,000",
+        desc: "بدنه تیتانیومی و A17 Pro",
+        details: "بدنه تیتانیومی سبک، پردازنده A17 Pro بسیار قدرتمند و پورت USB‑C پرسرعت، آن را پرچمدار جذابی کرده است.",
+        specs: { نمایشگر: "6.1 اینچ ProMotion OLED", پردازنده: "A17 Pro", دوربین: "سه‌گانه پیشرفته", باتری: "عبور از یک روز کامل", پورت: "USB‑C" },
+        img: "images/15pro.jpg"
+      }
+    ];
+
+    /* رندر آرشیو محصولات */
+    function renderProducts() {
+      app.innerHTML = `
+        <div class="products-header">
+          <h2>آرشیو محصولات</h2>
+          <div style="color:#666;font-size:13px">(${products.length} محصول)</div>
+        </div>
+        <div class="products-grid"></div>
+      `;
+      const grid = app.querySelector(".products-grid");
+      products.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img class="product-thumb" src="${p.img}" alt="${p.name}">
+          <div class="product-body">
+            <div class="product-name">${p.name}</div>
+            <div class="product-desc">${p.desc}</div>
+            <div class="product-price">${p.price} تومان</div>
+            <a class="product-link" href="#/product/${p.id}">مشاهده جزئیات</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      setActiveNav("#/products");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /* رندر صفحه محصول تکی */
+    function renderProductDetail(id) {
+      const product = products.find(p => p.id == id);
+      if (!product) {
+        app.innerHTML = "<p>محصول یافت نشد</p>";
+        return;
+      }
+      const specItems = Object.entries(product.specs || {}).map(
+        ([key, val]) => `<li class="spec-item"><span class="spec-key">${key}</span><span class="spec-val">${val}</span></li>`
+      ).join("");
+
+      app.innerHTML = `
+        <div class="product-detail">
+          <div class="detail-media">
+            <img src="${product.img}" alt="${product.name}">
+          </div>
+          <div class="detail-info">
+            <div class="detail-title">${product.name}</div>
+            <div class="detail-price">قیمت: ${product.price} تومان</div>
+            <div class="detail-desc">${product.details}</div>
+
+            <div class="detail-specs">
+              <h3>مشخصات:</h3>
+              <ul class="specs-list">${specItems}</ul>
+            </div>
+
+            <div class="detail-actions">
+              <button class="btn btn-primary" id="buyBtn">🛒 افزودن به سبد خرید</button>
+              <button class="btn btn-secondary" id="backBtn">بازگشت به محصولات</button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById("buyBtn").onclick = () => alert(`«${product.name}» به سبد خرید اضافه شد.`);
+      document.getElementById("backBtn").onclick = () => { location.hash = "#/products"; };
+      setActiveNav(""); // در صفحه محصول تکی، ناوبری فعال ندارد
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /* رندر درباره ما */
+    function renderAbout() {
+      app.innerHTML = `
+        <div class="about">
+          <img width="200px" src="images/msv.png">
+          <h2>درباره ما</h2>
+          <p>
+            ما در فروشگاه آیفون تلاش می‌کنیم جدیدترین مدل‌های آیفون را با بهترین قیمت و
+            تجربه کاربری حرفه‌ای ارائه کنیم. کیفیت محصول، پشتیبانی سریع و شفافیت
+            در فرایند خرید ارزش‌های اصلی ما هستند.
+          </p>
+          <p>
+            می‌توانید از بخش «محصولات» همه مدل‌ها را ببینید
+            <br>
+            ما یک فروشگاه تخصصی در زمینه گوشی های آیفون هستیم که فعالیت خود را از سال 1394 آغاز کردیم. و مفتخریم که مشتریانی همچون شما داریم.
+          </p>
+          <br><hr>
+          <p>
+            چطور میتونم سفارشم رو ثبت کنم؟
+<br>
+برای ثبت سفارش، محصول مورد نظر رو انتخاب کن و به سبد خرید اضافه کن و بعد روی پرداخت کلیک کن و مراحل رو طی کن.
+
+<br><hr>
+آیا امکان پرداخت در محل وجود داره؟
+<br>
+در حال حاضر پرداخت در محل فقط در استان تهران وجود دارد.
+
+<br><hr>
+هزینه ارسال چقدر است؟
+<br>
+هزینه ارسال بسته به وزن، حجم و مسافتی که طی میشود، متفاوت است.
+
+<br><hr>
+محصول کی به دستم میرسه؟
+<br>
+پس از ثبت سفارش، بسته شما طی سه الی پنج روز کاری بدستتان خواهد رسید.
+          </p>
+        </div>
+      `;
+      setActiveNav("#/about");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /* روتینگ ساده با hash */
+    function router() {
+      const hash = window.location.hash || "#/products";
+      if (hash.startsWith("#/product/")) {
+        const id = hash.split("/")[2];
+        renderProductDetail(id);
+      } else if (hash === "#/about") {
+        renderAbout();
+      } else {
+        renderProducts();
+      }
+    }
+
+    /* فعال‌سازی لینک‌های ناوبری */
+    function setActiveNav(targetHash) {
+      const links = [document.getElementById("nav-products"), document.getElementById("nav-about")];
+      links.forEach(a => a && a.classList.remove("active"));
+      if (targetHash === "#/products") document.getElementById("nav-products")?.classList.add("active");
+      if (targetHash === "#/about") document.getElementById("nav-about")?.classList.add("active");
+    }
+
+    /* راه‌اندازی */
+    window.addEventListener("hashchange", router);
+    window.addEventListener("load", router);
+  </script>
+</body>
+</html>
